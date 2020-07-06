@@ -1759,13 +1759,16 @@ var sandcastleJsHintOptions = " +
 
 function buildSandcastle() {
   var appStream = gulp
-    .src([
-      "Apps/Sandcastle/**",
-      "!Apps/Sandcastle/load-cesium-es6.js",
-      "!Apps/Sandcastle/standalone.html",
-      "!Apps/Sandcastle/images/**",
-      "!Apps/Sandcastle/gallery/**.jpg",
-    ])
+    .src(
+      [
+        "Apps/Sandcastle/**",
+        "!Apps/Sandcastle/load-cesium-es6.js",
+        "!Apps/Sandcastle/standalone.html",
+        "!Apps/Sandcastle/images/**",
+        "!Apps/Sandcastle/gallery/**.jpg",
+      ],
+      { allowEmpty: true }
+    )
     // Remove dev-only ES6 module loading for unbuilt Cesium
     .pipe(
       gulpReplace(
@@ -1783,14 +1786,18 @@ function buildSandcastle() {
     .pipe(gulp.dest("Build/Apps/Sandcastle"));
 
   var imageStream = gulp
-    .src(["Apps/Sandcastle/gallery/**.jpg", "Apps/Sandcastle/images/**"], {
-      base: "Apps/Sandcastle",
-      buffer: false,
-    })
+    .src(
+      ["Apps/Sandcastle/gallery/**.jpg", "Apps/Sandcastle/images/**"],
+      {
+        base: "Apps/Sandcastle",
+        buffer: false,
+      },
+      { allowEmpty: true }
+    )
     .pipe(gulp.dest("Build/Apps/Sandcastle"));
 
   var standaloneStream = gulp
-    .src(["Apps/Sandcastle/standalone.html"])
+    .src(["Apps/Sandcastle/standalone.html"], { allowEmpty: true })
     .pipe(
       gulpReplace(
         '    <script type="module" src="load-cesium-es6.js"></script>',
@@ -1834,28 +1841,31 @@ function buildCesiumViewer() {
   promise = promise.then(function () {
     var stream = mergeStream(
       gulp
-        .src("Build/Apps/CesiumViewer/CesiumViewer.js")
+        .src("Build/Apps/CesiumViewer/CesiumViewer.js", { allowEmpty: true })
         .pipe(gulpInsert.prepend(copyrightHeader))
         .pipe(gulpReplace("../../Source", "."))
         .pipe(gulp.dest(cesiumViewerOutputDirectory)),
 
       gulp
-        .src("Apps/CesiumViewer/CesiumViewer.css")
+        .src("Apps/CesiumViewer/CesiumViewer.css", { allowEmpty: true })
         .pipe(cleanCSS())
         .pipe(gulpReplace("../../Source", "."))
         .pipe(gulp.dest(cesiumViewerOutputDirectory)),
 
       gulp
-        .src("Apps/CesiumViewer/index.html")
+        .src("Apps/CesiumViewer/index.html", { allowEmpty: true })
         .pipe(gulpReplace('type="module"', ""))
         .pipe(gulp.dest(cesiumViewerOutputDirectory)),
 
-      gulp.src([
-        "Apps/CesiumViewer/**",
-        "!Apps/CesiumViewer/index.html",
-        "!Apps/CesiumViewer/**/*.js",
-        "!Apps/CesiumViewer/**/*.css",
-      ]),
+      gulp.src(
+        [
+          "Apps/CesiumViewer/**",
+          "!Apps/CesiumViewer/index.html",
+          "!Apps/CesiumViewer/**/*.js",
+          "!Apps/CesiumViewer/**/*.css",
+        ],
+        { allowEmpty: true }
+      ),
 
       gulp.src(
         [
@@ -1868,14 +1878,16 @@ function buildCesiumViewer() {
         {
           base: "Build/Cesium",
           nodir: true,
+          allowEmpty: true,
         }
       ),
 
       gulp.src(["Build/Cesium/Widgets/InfoBox/InfoBoxDescription.css"], {
         base: "Build/Cesium",
+        allowEmpty: true,
       }),
 
-      gulp.src(["web.config"])
+      gulp.src(["web.config"], { allowEmpty: true })
     );
 
     return streamToPromise(stream.pipe(gulp.dest(cesiumViewerOutputDirectory)));

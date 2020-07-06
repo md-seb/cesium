@@ -11,7 +11,7 @@
 
   var yargs = require("yargs").options({
     port: {
-      default: 8080,
+      default: 7000,
       description: "Port to listen on.",
     },
     public: {
@@ -186,23 +186,19 @@
     );
   });
 
-  var server = app.listen(
-    argv.port,
-    argv.public ? undefined : "localhost",
-    function () {
-      if (argv.public) {
-        console.log(
-          "Cesium development server running publicly.  Connect to http://localhost:%d/",
-          server.address().port
-        );
-      } else {
-        console.log(
-          "Cesium development server running locally.  Connect to http://localhost:%d/",
-          server.address().port
-        );
-      }
+  var server = app.listen(argv.port, undefined, function () {
+    if (argv.public) {
+      console.log(
+        "Cesium development server running publicly.  Connect to http://localhost:%d/",
+        server.address().port
+      );
+    } else {
+      console.log(
+        "Cesium development server running locally.  Connect to http://localhost:%d/",
+        server.address().port
+      );
     }
-  );
+  });
 
   server.on("error", function (e) {
     if (e.code === "EADDRINUSE") {

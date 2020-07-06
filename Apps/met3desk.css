@@ -1,0 +1,157 @@
+@import url(../Build/CesiumUnminified/Widgets/widgets.css);
+
+html,
+body,
+#cesiumContainer {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.cesium-widget-credits {
+  display: none !important;
+}
+
+#toolbar {
+  padding: 2px 5px;
+  position: absolute;
+  max-width: 80vw;
+  top: 5px;
+  left: 5px;
+  background: rgba(42, 42, 42, 0.3);
+  border-radius: 5px;
+}
+
+#toolbar .inactive {
+  color: #777;
+}
+
+.site {
+  max-width: 1440px;
+  margin: 0 auto;
+  position: relative;
+  font-weight: bold;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+}
+
+.header {
+  background: tomato;
+  padding: 10px;
+}
+
+.footer {
+  background: lightgreen;
+  padding: 10px;
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  background: deepskyblue;
+  padding: 10px;
+}
+
+.sidebar > div {
+  padding: 10px;
+}
+
+.sidebar-1 {
+  background: gold;
+}
+
+.sidebar-2 {
+  background: hotpink;
+}
+
+@media all and (max-width: 800px) {
+  .content {
+    flex-wrap: wrap;
+  }
+  .main {
+    flex: 1 1 100%;
+  }
+}
+
+@media all and (min-width: 801px) {
+  .sidebar-1 {
+    order: 1;
+  }
+  .main {
+    order: 2;
+  }
+  .sidebar-2 {
+    order: 3;
+  }
+}
+
+/**
+   * Sidebar toggle
+   */
+/**
+   * Sidebars open by default
+   */
+.sidebar {
+  width: 20%;
+}
+
+label[for="sidebar-1-toggle"]:after,
+label[for="sidebar-2-toggle"]:after {
+  content: "\2013";
+}
+
+#sidebar-1-toggle:checked ~ label[for="sidebar-1-toggle"]:after,
+#sidebar-2-toggle:checked ~ label[for="sidebar-2-toggle"]:after {
+  content: "+";
+}
+
+#sidebar-1-toggle:checked ~ .sidebar-1,
+#sidebar-2-toggle:checked ~ .sidebar-2 {
+  display: none;
+  width: 0;
+}
+
+/**
+   * checkboxes open/close the sidebars
+   * #sidebar-1-toggle and #sidebar-2-toggle
+   */
+#sidebar-1-toggle,
+#sidebar-2-toggle {
+  display: none;
+}
+
+label[for="sidebar-1-toggle"],
+label[for="sidebar-2-toggle"] {
+  position: absolute;
+  top: 0;
+  display: block;
+  padding: 0.25em 10px;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+label[for="sidebar-1-toggle"] {
+  left: 0;
+}
+
+label[for="sidebar-2-toggle"] {
+  right: 0;
+}
+
+@media all and (max-width: 800px) {
+  label[for="sidebar-1-toggle"],
+  label[for="sidebar-2-toggle"] {
+    display: none;
+  }
+  .sidebar-1,
+  .sidebar-2 {
+    display: block;
+    width: 50%;
+  }
+}
